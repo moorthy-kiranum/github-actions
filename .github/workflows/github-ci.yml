@@ -26,5 +26,8 @@ jobs:
     - run: npm ci
     - run: npm run build --if-present
     - run: npm test
-    - run:  zip -r build.zip ./build
+    - run: |
+        cd build
+        pwd
+        zip -r build.zip ./build
       
