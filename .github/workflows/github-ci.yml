@@ -43,7 +43,7 @@ jobs:
 
     - name: Copy ZIP file to S3 bucket
       run: |
-          cd dist
-          aws s3 cp ~/build/build.zip s3://reactapp-build-bucket
+          cd build
+          aws s3 cp /build.zip s3://reactapp-build-bucket
     - name: Completion of CI Pipleline
       run: echo "CI Pipleline part finished successfully"
