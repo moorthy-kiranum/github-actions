@@ -29,5 +29,5 @@ jobs:
     - run: |
         cd build
         pwd
-        zip -r build.zip ./
+        zip -r ${{ env.DEPLOY_PACKAGE_NAME }} ./
       
