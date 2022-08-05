@@ -31,19 +31,13 @@ jobs:
         cd build
         pwd
         zip -r ~/build/build.zip ./
-    - name: Configure AWS Credentials
-      uses: aws-actions/configure-aws-credentials@v1
+    - uses: shallwefootball/s3-upload-action@master
+      name: Upload S3
+      id: S3
       with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: ${{ env.AWS_REGION_NAME }}
+          aws_key_id: ${{ secrets.AWS_KEY_ID }}
+          aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY}}
+          aws_bucket: reactapp-build-bucket
+          source_dir: '~/build/build.zip'
 
-    - name: Check working directory
-      run: pwd
-
-    - name: Copy ZIP file to S3 bucket
-      run: |
-          cd build
-          aws s3 cp /build.zip s3://reactapp-build-bucket
-    - name: Completion of CI Pipleline
-      run: echo "CI Pipleline part finished successfully"
+  
