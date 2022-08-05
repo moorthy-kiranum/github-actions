@@ -2,7 +2,7 @@
 # For more information see: https://help.github.com/actions/language-and-framework-guides/using-nodejs-with-github-actions
 env:
     AWS_REGION_NAME: us-east-1
-name: Node.js CI
+name: Continues Integration
 
 on:
   push:
