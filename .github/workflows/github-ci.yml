@@ -31,6 +31,6 @@ jobs:
     - name: Run Tests
     - run: npm test
 
-    - name: Zip build 
-    - run:  zip -r build.zip ./build
+    # - name: Zip build 
+    # - run:  zip -r build.zip ./build
       
