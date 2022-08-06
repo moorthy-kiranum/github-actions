@@ -32,13 +32,21 @@ jobs:
         pwd
         zip -r ../build/build.zip ./
         
-    - uses: aws-actions/configure-aws-credentials@v1
-      name: Set AWS credentials
+    - name: Configure AWS Credentials
+      uses: aws-actions/configure-aws-credentials@v1
       with:
-        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        aws-region: eu-west-1
-        name: Upload to S3
-        run: npm run deploy 
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ env.AWS_REGION_NAME }}
+
+    - name: Check working directory
+      run: pwd
+
+    - name: Copy ZIP file to S3 bucket
+      run: |
+          cd dist
+          aws s3 cp ${{ env.DEPLOY_PACKAGE_NAME }} s3://${{ env.EB_PACKAGE_S3_BUCKET_NAME }}
+    - name: Completion of CI Pipleline
+      run: echo "CI Pipleline part finished successfully"
 
   
