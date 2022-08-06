@@ -36,7 +36,6 @@ jobs:
         cd build
         pwd
         zip -r {{ env.DEPLOY_PACKAGE_NAME }} ./
-        ls
         
     - name: Configure AWS Credentials
       uses: aws-actions/configure-aws-credentials@v1
@@ -47,8 +46,8 @@ jobs:
 
     - name: Copy ZIP file to S3 bucket
       run: |
-          cd build
-          echo build name ${{ env.DEPLOY_PACKAGE_NAME }}
+          pwd
+          ls
           aws s3 cp ${{ env.DEPLOY_PACKAGE_NAME }} s3://${{ secrets.AWS_BUCKET }}
     - name: Completion of CI Pipleline
       run: echo "CI Pipleline part finished successfully"
