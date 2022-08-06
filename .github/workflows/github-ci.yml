@@ -30,6 +30,8 @@ jobs:
     - run: npm ci
     - run: npm run build --if-present
     - run: npm test
+    
+    - name : compress build to zip file
     - run: |
         cd build
         pwd
@@ -45,6 +47,7 @@ jobs:
     - name: Copy ZIP file to S3 bucket
       run: |
           cd ~/reactapp-build
+          pwd
           echo build name ${{ env.DEPLOY_PACKAGE_NAME }}
           aws s3 cp ${{ env.DEPLOY_PACKAGE_NAME }} s3://${{ secrets.AWS_BUCKET }}
     - name: Completion of CI Pipleline
