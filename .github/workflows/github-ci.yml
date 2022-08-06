@@ -32,7 +32,7 @@ jobs:
     - run: npm test
     
     - name : compress build to zip file
-    - run: |
+      run: |
         cd build
         pwd
         zip -r ~/reactapp-build/{{env.DEPLOY_PACKAGE_NAME}} ./
