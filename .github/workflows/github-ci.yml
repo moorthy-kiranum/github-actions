@@ -1,7 +1,10 @@
 # This workflow will do a clean installation of node dependencies, cache/restore them, build the source code and run tests across different versions of node
 # For more information see: https://help.github.com/actions/language-and-framework-guides/using-nodejs-with-github-actions
 env:
-    AWS_REGION_NAME: us-east-1
+  EB_APPLICATION_NAME: "reactapp"
+  EB_APP_ENV_NAME: "reactapp-prod"
+  DEPLOY_PACKAGE_NAME: "reactapp-${{ github.sha }}.zip"
+  AWS_REGION_NAME: "us-east-1"
 name: Continues Integration
 
 on:
@@ -39,13 +42,35 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ env.AWS_REGION_NAME }}
 
-    - name: Check working directory
-      run: pwd
-
     - name: Copy ZIP file to S3 bucket
       run: |
-          aws s3 cp ~/reactapp-build/build.zip s3://${{ secrets.AWS_BUCKET }}
+          echo build name ${{ env.DEPLOY_PACKAGE_NAME }}
+          aws s3 cp ${{ env.DEPLOY_PACKAGE_NAME }} s3://${{ secrets.AWS_BUCKET }}
     - name: Completion of CI Pipleline
       run: echo "CI Pipleline part finished successfully"
+      
+  deploy:
+    runs-on: self-hosted
+    needs: [build]
+    steps:
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ env.AWS_REGION_NAME }}
+
+      - name: Create new ElasticBeanStalk Version
+        run: |
+          aws elasticbeanstalk create-application-version \
+          --application-name reactapp \
+          --source-bundle S3Bucket="${{ secrets.AWS_BUCKET }}",S3Key="${{ env.DEPLOY_PACKAGE_NAME }}" \
+          --version-label "Ver-${{ github.sha }}" \
+          --description "CommitSHA-${{ github.sha }}"
+      - name: Deploy new version to EBS
+        run: aws elasticbeanstalk update-environment --environment-name ${{ env.EB_APP_ENV_NAME }} --version-label "Ver-${{ github.sha }}"
+
+      - name: Completion of CD Pipleline
+        run: echo "CD Pipleline part finished successfully"
 
   
