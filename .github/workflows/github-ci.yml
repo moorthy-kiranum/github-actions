@@ -35,7 +35,8 @@ jobs:
       run: |
         cd build
         pwd
-        zip -r ~/reactapp-build/{{env.DEPLOY_PACKAGE_NAME}} ./
+        zip -r ~/reactapp-build/{{ env.DEPLOY_PACKAGE_NAME }} ./
+        ls
         
     - name: Configure AWS Credentials
       uses: aws-actions/configure-aws-credentials@v1
