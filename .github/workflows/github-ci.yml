@@ -36,6 +36,7 @@ jobs:
         cd build
         pwd
         zip -r ~/reactapp-build/{{ env.DEPLOY_PACKAGE_NAME }} ./
+        cd ~/reactapp-build
         ls
         
     - name: Configure AWS Credentials
@@ -48,7 +49,7 @@ jobs:
     - name: Copy ZIP file to S3 bucket
       run: |
           cd ~/reactapp-build
-          pwd
+          ls
           echo build name ${{ env.DEPLOY_PACKAGE_NAME }}
           aws s3 cp ${{ env.DEPLOY_PACKAGE_NAME }} s3://${{ secrets.AWS_BUCKET }}
     - name: Completion of CI Pipleline
