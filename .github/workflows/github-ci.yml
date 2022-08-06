@@ -31,6 +31,7 @@ jobs:
         cd build
         pwd
         zip -r ../build/build.zip ./
+    - run: echo  ${{secrets.AWS_ACCESS_KEY_ID}}
     - uses: shallwefootball/s3-upload-action@master
       name: Upload S3
       id: S3
