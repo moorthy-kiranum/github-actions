@@ -35,7 +35,7 @@ jobs:
       run: |
         cd build
         pwd
-        zip -r {{ env.DEPLOY_PACKAGE_NAME }} ./
+        zip -r {{ env.DEPLOY_PACKAGE_NAME }} /build/*
         
     - name: Configure AWS Credentials
       uses: aws-actions/configure-aws-credentials@v1
