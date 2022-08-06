@@ -38,7 +38,7 @@ jobs:
       with:
           aws_key_id: ${{secrets.AWS_ACCESS_KEY_ID}}
           aws_secret_access_key: ${{secrets.AWS_SECRET_ACCESS_KEY}}
-          aws_bucket: reactapp-build-bucket
+          aws_bucket:  ${{secrets.AWS_BUCKET}}
           source_dir: './build'
 
   
