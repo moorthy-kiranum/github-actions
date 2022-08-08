@@ -1,70 +1,34 @@
-# Getting Started with Create React App
+## Guide to Build and Deploy Applications in AWS EBS using Github Actions
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+1. Create a EC2 Instance from [here](https://aws.amazon.com/ec2/)  
+    - ##### To Connect EC2 instance :
+                1. Click on Connect button near launch instance
+                2. Use any of the 3 options to connect your instance (browser-based ssh connection is pretty much easier than others)
+        
+3. Navigate to your working repository and Create a self hosted runner from  Settings -> Actions -> Runners
+    - Select the environment where the runner is going to be install (select similar to EC2 instance Environment)
+    - Select the architecture
+    - Run all the commands shown in your EC2 instance created from #1
 
-## Available Scripts
+4. Create a S3 bucket from [here](https://docs.aws.amazon.com/AmazonS3/latest/userguide/creating-bucket.html) and enable public access for the bucket
+5. Create a ElasticBeanStalk Application from [here](https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/using-features.environments.html) 
+6. Create a IAM user for programmatic access from [here](https://us-east-1.console.aws.amazon.com/iamv2/home#/home) and make sure whether it has all the below access:
+    - AWSS3FullAccess
+    - AWSEC2FullAccess
+    - AWSCloudfromationFullAccess
+    - AdministratorAccess-AWSElasticBeanstalk </br>
+      `These are predefined policies provided by AWS . We can also create our own policies based on the requirement`</br>
+7. Once you done with creating IAM user you will get a ACCESS_KEY_ID and ACCESS_KEY (please store the `access_key` somewhere. you can't see the same access_key value again)
 
-In the project directory, you can run:
+8. Create a directory named `workflows` inside `.github` directory in root folder.</br>
+    Looks Like
+    ```
+        ├── .github 
+        │   ├── workflows 
+        │   │   ├── *.yaml // here goes all the github-action files 
+        ├── build 
+        ├── src 
+    ```
+     `To know more about github actions [Click Here](https://docs.github.com/en/actions/quickstart)`
 
-### `npm start`
-
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
-
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
-
-### `npm test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+ - `Note: make sure all the above aws components are created in same region`
