@@ -18,7 +18,8 @@
     - AWSCloudfromationFullAccess
     - AdministratorAccess-AWSElasticBeanstalk </br>
       `These are predefined policies provided by AWS . We can also create our own policies based on the requirement`</br>
-7. Once you done with creating IAM user you will get a ACCESS_KEY_ID and ACCESS_KEY (please store the `access_key` somewhere. you can't see the same access_key value again)
+7. Once you done with creating IAM user you will get a ACCESS_KEY_ID and ACCESS_KEY (please store the `access_key` somewhere. you can't see the same access_key value again). Add those keys secrets `Settings - > Secrets -> Actions`
+    - In my case I have named `AWS_ACCESS_KEY_ID` for access_key_id and `AWS_SECRET_ACCESS_KEY` for access_key
 
 8. Create a directory named `workflows` inside `.github` directory in root folder.</br>
     Looks Like
@@ -30,5 +31,13 @@
         ├── src 
     ```
      `To know more about github actions [Click Here](https://docs.github.com/en/actions/quickstart)`
-
- - `Note: make sure all the above aws components are created in same region`
+9. Copy the github-actions.yaml file from [here](https://github.com/moorthy-kiranum/github-actions/blob/master/.github/workflows/github-ci.yml) to your workflows directory.
+10. Config all the env values :
+    ```
+          EB_APPLICATION_NAME: "YOUR_EBS_APPLICATION_NAME" created in #3
+          EB_APP_ENV_NAME: "YOUR_EBS_APPLICATION_ENVIRONMENT NAME" created in #3
+          DEPLOY_PACKAGE_NAME: "YOUR_APPLICATIO_NAME-${{ github.sha }}.zip" // make sure you have different package name for each deployment to keep track on your application version
+          AWS_REGION_NAME: "YOUR_REGION" where all aws components are created 
+          AWS_BUCKET_NAME: "YOUR_BUCKET_NAME" created in #4
+     ```
+ - `Note: make sure all the above AWS components are created in same region`
