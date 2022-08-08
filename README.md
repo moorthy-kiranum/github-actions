@@ -40,4 +40,5 @@
           AWS_REGION_NAME: "YOUR_REGION" where all aws components are created 
           AWS_BUCKET_NAME: "YOUR_BUCKET_NAME" created in #4
      ```
+     
  - `Note: make sure all the above AWS components are created in same region`
