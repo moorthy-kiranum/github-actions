@@ -35,6 +35,8 @@ jobs:
       run: |
         cd build
         pwd
+        touch Procfile
+        echo web: npx serve >> Procfile
         zip -r ${{ env.DEPLOY_PACKAGE_NAME }} ./
         
     - name: Configure AWS Credentials
