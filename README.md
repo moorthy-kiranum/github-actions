@@ -30,7 +30,7 @@
         ├── build 
         ├── src 
     ```
-     `To know more about github actions [Click Here](https://docs.github.com/en/actions/quickstart)`
+     `To know more about github actions` [Click Here](https://docs.github.com/en/actions/quickstart)
 9. Copy the github-actions.yaml file from [here](https://github.com/moorthy-kiranum/github-actions/blob/master/.github/workflows/github-ci.yml) to your workflows directory.
 10. Config all the env values :
     ```
