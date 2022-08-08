@@ -70,7 +70,7 @@ jobs:
           --source-bundle 
           '{
                 "S3Bucket":"${{ secrets.AWS_BUCKET }}",
-                "S3Key":"${{ env.DEPLOY_PACKAGE_NAME }}
+                "S3Key":"${{ env.DEPLOY_PACKAGE_NAME }}"
            }' \
           --version-label "Ver-${{ github.sha }}" \
           --description "CommitSHA-${{ github.sha }}"
