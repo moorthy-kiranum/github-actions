@@ -5,6 +5,7 @@ env:
   EB_APP_ENV_NAME: "reactapp-env"
   DEPLOY_PACKAGE_NAME: "reactapp-${{ github.sha }}.zip"
   AWS_REGION_NAME: "us-east-1"
+  AWS_BUCKET_NAME: "reactapp-artifact"
 name: Continues Integration
 
 on:
@@ -36,7 +37,7 @@ jobs:
         cd build
         pwd
         touch Procfile
-        echo web: npx serve >> Procfile
+        echo web: npx serve >> Procfile #to run the applications once the build deployed successfully
         zip -r ${{ env.DEPLOY_PACKAGE_NAME }} ./
         
     - name: Configure AWS Credentials
@@ -50,9 +51,9 @@ jobs:
       run: |
           cd build
           pwd
-          aws s3 cp ${{ env.DEPLOY_PACKAGE_NAME }} s3://${{ secrets.AWS_BUCKET }}
+          aws s3 cp ${{ env.DEPLOY_PACKAGE_NAME }} s3://${{ env.AWS_BUCKET_NAME }}
     - name: Completion of CI Pipleline
-      run: echo "CI Pipleline part finished successfully"
+      run: echo "Build finished successfully"
       
   deploy:
     runs-on: self-hosted
@@ -67,11 +68,11 @@ jobs:
 
       - name: Create new ElasticBeanStalk Version
         run: |
-          aws elasticbeanstalk create-application-version --application-name reactapp --source-bundle '{"S3Bucket":"${{ secrets.AWS_BUCKET }}","S3Key": "${{ env.DEPLOY_PACKAGE_NAME }}"}' --version-label "Ver-${{ github.sha }}" --description "${{ github.sha }}"
+          aws elasticbeanstalk create-application-version --application-name reactapp --source-bundle '{"S3Bucket":"${{ env.AWS_BUCKET_NAME }}","S3Key": "${{ env.DEPLOY_PACKAGE_NAME }}"}' --version-label "Ver-${{ github.sha }}" --description "${{ github.sha }}"
       - name: Deploy new version to EBS
         run: aws elasticbeanstalk update-environment --environment-name ${{ env.EB_APP_ENV_NAME }} --version-label "Ver-${{ github.sha }}"
 
       - name: Completion of CD Pipleline
-        run: echo "CD Pipleline part finished successfully"
+        run: echo "Deployment finished successfully"
 
   
