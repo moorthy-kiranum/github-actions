@@ -65,7 +65,7 @@ jobs:
 
       - name: Create new ElasticBeanStalk Version
         run: |
-          aws elasticbeanstalk create-application-version --application-name reactapp --source-bundle '{"S3Bucket":{{ secrets.AWS_BUCKET }},"S3Key": ${{ env.DEPLOY_PACKAGE_NAME }}}' --version-label "Ver-${{ github.sha }}" --description "${{ github.sha }}"
+          aws elasticbeanstalk create-application-version --application-name reactapp --source-bundle '{"S3Bucket":"${{ secrets.AWS_BUCKET }}","S3Key": "${{ env.DEPLOY_PACKAGE_NAME }}"}' --version-label "Ver-${{ github.sha }}" --description "${{ github.sha }}"
       - name: Deploy new version to EBS
         run: aws elasticbeanstalk update-environment --environment-name ${{ env.EB_APP_ENV_NAME }} --version-label "Ver-${{ github.sha }}"
 
